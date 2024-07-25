@@ -36,7 +36,7 @@ export class AppConfigService {
       useFactory: (configService: ConfigService) =>
         ({
           type: 'postgres',
-          entities: ['dist/**/entities/*{.ts,.js}'],
+          entities: ['dist/**/entities/*.entity.{ts,js}'],
           migrations: ['dist/migrations/**/*{.ts,.js}'],
           cli: {
             entitiesDir: ['dist/**/entities/*{.ts,.js}'],
