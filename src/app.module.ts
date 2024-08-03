@@ -4,7 +4,6 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { AppConfigService } from './configs/configs.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 
 @Module({
@@ -13,7 +12,6 @@ import { UserModule } from './user/user.module';
       envFilePath: AppConfigService.getDotenvConfigs(),
     }),
     TypeOrmModule.forRootAsync(AppConfigService.getDatabaseConfigs()),
-    AuthModule,
     UserModule,
   ],
   controllers: [AppController],
