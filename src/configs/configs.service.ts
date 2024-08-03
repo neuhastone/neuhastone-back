@@ -9,7 +9,7 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 @Module({})
 export class AppConfigService {
   static getDotenvConfigs(): string {
-    const nodeEnv = process.env.ENV;
+    const nodeEnv = process.env.NODE_ENV;
 
     let dotenvFilePath = '.env';
 
