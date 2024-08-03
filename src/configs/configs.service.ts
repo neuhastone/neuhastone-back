@@ -45,6 +45,7 @@ export class AppConfigService {
           host: configService.get<string>('POSTGRES_HOST'),
           username: configService.get<string>('POSTGRES_USER'),
           password: configService.get<string>('POSTGRES_PASSWORD'),
+          port: configService.get<number>('POSTGRES_PORT'),
           database: configService.get<string>('POSTGRES_DATABASE'),
           synchronize: configService.get<string>('ORM_ENTITY_SYNC') === 'true',
           logging: configService.get<string>('ORM_LOGGING') === 'true',
