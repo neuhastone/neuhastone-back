@@ -46,7 +46,6 @@ jobs:
                   value: development
               ports: 3000
               install: npm install
-              build: npm run build
               start: npm run start:dev
               buildenv: []
             context:
