@@ -16,13 +16,13 @@ jobs:
           ghtoken: ${{ secrets.GHP_TOKEN }}
       - name: Generate Environment Variables File for Development
         run: |
-          echo "POSTGRES_HOST=$POSTGRES_HOST_DEV" >> .env.dev
-          echo "POSTGRES_USER=$POSTGRES_USER_DEV" >> .env.dev
-          echo "POSTGRES_PORT=$POSTGRES_PORT_DEV" >> .env.dev
-          echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD_DEV" >> .env.dev
-          echo "POSTGRES_DATABASE=$POSTGRES_DATABASE_DEV" >> .env.dev
-          echo "ORM_ENTITY_SYNC=$ORM_ENTITY_SYNC_DEV" >> .env.dev
-          echo "ORM_LOGGING=$ORM_LOGGING_DEV" >> .env.dev
+          echo "POSTGRES_HOST=$POSTGRES_HOST_DEV" >> ./src/configs/env/.env.dev
+          echo "POSTGRES_USER=$POSTGRES_USER_DEV" >> ./src/configs/env/.env.dev
+          echo "POSTGRES_PORT=$POSTGRES_PORT_DEV" >> ./src/configs/env/.env.dev
+          echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD_DEV" >> ./src/configs/env/.env.dev
+          echo "POSTGRES_DATABASE=$POSTGRES_DATABASE_DEV" >> ./src/configs/env/.env.dev
+          echo "ORM_ENTITY_SYNC=$ORM_ENTITY_SYNC_DEV" >> ./src/configs/env/.env.dev
+          echo "ORM_LOGGING=$ORM_LOGGING_DEV" >> ./src/configs/env/.env.dev
         env:
           POSTGRES_HOST_DEV: ${{ secrets.REACT_APP_DOMAIN_DEV }}
           POSTGRES_USER_DEV: ${{ secrets.REACT_APP_DEBUG_DEV }}
@@ -47,7 +47,7 @@ jobs:
               ports: 3000
               install: npm install
               build: npm run build
-              start: node dist/main.js
+              start: npm run start:dev
               buildenv: []
             context:
               git:

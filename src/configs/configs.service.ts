@@ -5,6 +5,7 @@ import {
   TypeOrmModuleOptions,
 } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
+import * as path from 'path';
 
 @Module({})
 export class AppConfigService {
@@ -27,7 +28,8 @@ export class AppConfigService {
         dotenvFilePath = '.env.local';
         break;
     }
-    return dotenvFilePath;
+
+    return path.resolve(__dirname, 'env', dotenvFilePath);
   }
 
   static getDatabaseConfigs(): TypeOrmModuleAsyncOptions {
