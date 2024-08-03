@@ -1,0 +1,55 @@
+name: Deploy to cloudtype
+on:
+  push:
+    branches:
+      - dev
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Connect deploy key
+        uses: cloudtype-github-actions/connect@v1
+        with:
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          ghtoken: ${{ secrets.GHP_TOKEN }}
+      - name: Generate Environment Variables File for Development
+        run: |
+          echo "POSTGRES_HOST=$POSTGRES_HOST_DEV" >> .env.dev
+          echo "POSTGRES_USER=$POSTGRES_USER_DEV" >> .env.dev
+          echo "POSTGRES_PORT=$POSTGRES_PORT_DEV" >> .env.dev
+          echo "POSTGRES_PASSWORD=$POSTGRES_PASSWORD_DEV" >> .env.dev
+          echo "POSTGRES_DATABASE=$POSTGRES_DATABASE_DEV" >> .env.dev
+          echo "ORM_ENTITY_SYNC=$ORM_ENTITY_SYNC_DEV" >> .env.dev
+          echo "ORM_LOGGING=$ORM_LOGGING_DEV" >> .env.dev
+        env:
+          POSTGRES_HOST_DEV: ${{ secrets.REACT_APP_DOMAIN_DEV }}
+          POSTGRES_USER_DEV: ${{ secrets.REACT_APP_DEBUG_DEV }}
+          POSTGRES_PORT_DEV: ${{ secrets.REACT_APP_DOMAIN_DEV }}
+          POSTGRES_PASSWORD_DEV: ${{ secrets.REACT_APP_DEBUG_DEV }}
+          POSTGRES_DATABASE_DEV: ${{ secrets.REACT_APP_DOMAIN_DEV }}
+          ORM_ENTITY_SYNC_DEV: ${{ secrets.REACT_APP_DEBUG_DEV }}
+          ORM_LOGGING_DEV: ${{ secrets.REACT_APP_DOMAIN_DEV }}
+      - name: Deploy
+        uses: cloudtype-github-actions/deploy@v1
+        with:
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          project: hubigo97/neuhastone-back
+          stage: main
+          yaml: |
+            name: neuhastone-back
+            app: node@16
+            options:
+              env:
+                - name: NODE_ENV
+                  value: development
+              ports: 3000
+              install: npm install
+              build: npm run build
+              start: node dist/main.js
+              buildenv: []
+            context:
+              git:
+                url: git@github.com:${{ github.repository }}.git
+                ref: ${{ github.ref }}
