@@ -29,6 +29,8 @@ export class AppConfigService {
         break;
     }
 
+    console.log(dotenvFilePath);
+
     return path.resolve(__dirname, 'env', dotenvFilePath);
   }
 
