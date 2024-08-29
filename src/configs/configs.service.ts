@@ -6,9 +6,34 @@ import {
 } from '@nestjs/typeorm';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import * as path from 'path';
+import { JwtModuleAsyncOptions, JwtModuleOptions } from '@nestjs/jwt';
 
 @Module({})
 export class AppConfigService {
+  static getJwtModuleOptions(): JwtModuleAsyncOptions {
+    return {
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => {
+        const jwtOption = AppConfigService.getJwtOptions(configService);
+
+        return jwtOption;
+      },
+      inject: [ConfigService],
+    };
+  }
+
+  static getJwtOptions(configService: ConfigService): JwtModuleOptions {
+    const jwtSecret = configService.get<string>('JWT_SECRET');
+    const expiresIn = configService.get<string>('JWT_EXPIRED_IN');
+
+    return {
+      secret: jwtSecret,
+      signOptions: {
+        expiresIn,
+      },
+    };
+  }
+
   static getDotenvConfigs(): string {
     const nodeEnv = process.env.NODE_ENV;
 
