@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { ProjectModule } from './project/project.module';
+import { PorjectService } from './porject/porject.service';
 
 @Module({
   imports: [
@@ -19,6 +20,6 @@ import { ProjectModule } from './project/project.module';
     ProjectModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, PorjectService],
 })
 export class AppModule {}
