@@ -12,6 +12,7 @@ import { ProjectModule } from './project/project.module';
   imports: [
     ConfigModule.forRoot({
       envFilePath: AppConfigService.getDotenvConfigs(),
+      isGlobal: true,
     }),
     TypeOrmModule.forRootAsync(AppConfigService.getDatabaseConfigs()),
     UserModule,
