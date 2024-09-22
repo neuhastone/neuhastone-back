@@ -1,5 +1,6 @@
 import { Base } from 'src/common/entities/base.entity';
-import { Entity, Column } from 'typeorm';
+import { User } from 'src/user/entities/user.entity';
+import { Entity, Column, ManyToMany, JoinTable } from 'typeorm';
 
 @Entity()
 export class Project extends Base {
@@ -30,4 +31,10 @@ export class Project extends Base {
     nullable: true,
   })
   endDate: Date;
+
+  @ManyToMany(() => User, (user) => user.projects)
+  @JoinTable({
+    name: 'project_members',
+  })
+  projectMembers: User[];
 }

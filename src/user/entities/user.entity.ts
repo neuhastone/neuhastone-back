@@ -1,5 +1,6 @@
 import { Base } from 'src/common/entities/base.entity';
-import { Entity, Column } from 'typeorm';
+import { Project } from 'src/project/entities/project.entity';
+import { Entity, Column, ManyToMany } from 'typeorm';
 
 @Entity()
 export class User extends Base {
@@ -21,4 +22,7 @@ export class User extends Base {
 
   @Column()
   password: string;
+
+  @ManyToMany(() => Project, (project) => project.projectMembers)
+  projects: Project[];
 }
