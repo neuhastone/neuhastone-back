@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -44,5 +44,15 @@ export class UserService {
     if (!existedUser) throw new NotFoundException();
 
     return existedUser;
+  }
+
+  async findUsersByEmailSubstring(emailSubstring: string) {
+    const users = await this.userRepository.find({
+      where: {
+        email: Like(`%${emailSubstring}%`),
+      },
+    });
+
+    return users;
   }
 }
