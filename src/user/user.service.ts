@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
-import { Repository, Like } from 'typeorm';
+import { Repository, Like, In } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -44,6 +44,16 @@ export class UserService {
     if (!existedUser) throw new NotFoundException();
 
     return existedUser;
+  }
+
+  async getUsersById(ids: number[]): Promise<User[]> {
+    const users = await this.userRepository.find({
+      where: {
+        id: In(ids),
+      },
+    });
+
+    return users;
   }
 
   async findUsersByEmailSubstring(emailSubstring: string) {

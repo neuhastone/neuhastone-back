@@ -1,10 +1,13 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Expose, Type } from 'class-transformer';
 import { IsArray, ValidateNested } from 'class-validator';
 
 export class UserDTO {
+  @ApiProperty()
   @Expose()
   id: number;
 
+  @ApiProperty()
   @Expose()
   email: string;
 }

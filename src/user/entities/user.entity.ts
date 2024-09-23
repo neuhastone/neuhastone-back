@@ -1,6 +1,6 @@
 import { Base } from 'src/common/entities/base.entity';
 import { Project } from 'src/project/entities/project.entity';
-import { Entity, Column, ManyToMany } from 'typeorm';
+import { Entity, Column, ManyToMany, OneToMany } from 'typeorm';
 
 @Entity()
 export class User extends Base {
@@ -24,5 +24,8 @@ export class User extends Base {
   password: string;
 
   @ManyToMany(() => Project, (project) => project.projectMembers)
+  belongProjects: Project[];
+
+  @OneToMany(() => Project, (project) => project.creator)
   projects: Project[];
 }

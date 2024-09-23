@@ -1,16 +1,30 @@
-import { Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
 
 import { AuthGuard } from 'src/auth/guard/auth.guard';
-import { UserService } from 'src/user/user.service';
+
+import { ProjectService } from './project.service';
+import { ProjectCreateRequestDTO } from './dto/create-project.dto';
 
 @Controller('project')
 export class ProjectController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly projectService: ProjectService) {}
   @Post()
   @UseGuards(AuthGuard)
   @ApiBearerAuth()
-  async test() {
-    return 'test';
+  async createProject(@Req() request, @Body() body: ProjectCreateRequestDTO) {
+    const { title, productDescription, budget, startDate, endDate, members } =
+      body;
+
+    console.log(members);
+    return await this.projectService.createProject(
+      title,
+      productDescription,
+      budget,
+      startDate,
+      endDate,
+      members.map((member) => member.id),
+      request.user,
+    );
   }
 }

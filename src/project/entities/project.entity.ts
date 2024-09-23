@@ -1,6 +1,6 @@
 import { Base } from 'src/common/entities/base.entity';
 import { User } from 'src/user/entities/user.entity';
-import { Entity, Column, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, Column, ManyToMany, JoinTable, ManyToOne } from 'typeorm';
 
 @Entity()
 export class Project extends Base {
@@ -20,7 +20,7 @@ export class Project extends Base {
   @Column({
     nullable: true,
   })
-  budget: string;
+  budget: number;
 
   @Column({
     nullable: true,
@@ -32,9 +32,12 @@ export class Project extends Base {
   })
   endDate: Date;
 
-  @ManyToMany(() => User, (user) => user.projects)
+  @ManyToMany(() => User, (user) => user.belongProjects)
   @JoinTable({
     name: 'project_members',
   })
   projectMembers: User[];
+
+  @ManyToOne(() => User, (user) => user.projects)
+  creator: User;
 }
