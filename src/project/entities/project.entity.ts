@@ -40,4 +40,7 @@ export class Project extends Base {
 
   @ManyToOne(() => User, (user) => user.projects)
   creator: User;
+
+  @Column()
+  creatorId: number;
 }

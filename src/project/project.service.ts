@@ -37,4 +37,10 @@ export class ProjectService {
 
     return addedProject;
   }
+
+  async getOwnProjects(creatorId: number) {
+    return await this.projectRepository.find({
+      where: { creatorId: creatorId },
+    });
+  }
 }
